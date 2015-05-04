@@ -1,8 +1,11 @@
 <?php
+
 namespace AsteriskTest\AppBundle\Form\Type;
 
+use AsteriskTest\AppBundle\Validator\Constraints\PhoneNumber;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class PhoneNumberType extends AbstractType
 {
@@ -10,10 +13,11 @@ class PhoneNumberType extends AbstractType
     {
         $builder
             ->add('phone', 'text', array(
-
-                ))
-            ->add('submit', 'submit', array(
-
+                    'label' => false,
+                    'constraints' => array(
+                        new NotBlank(),
+                        new PhoneNumber()
+                    )
                 ))
         ;
     }
@@ -25,6 +29,6 @@ class PhoneNumberType extends AbstractType
      */
     public function getName()
     {
-        return 'phone_number_type';
+        return 'phone_number';
     }
 }
