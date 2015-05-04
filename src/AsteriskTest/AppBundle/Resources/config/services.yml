@@ -1,0 +1,5 @@
+services:
+    asterisk_test_app.form.phone_number:
+        class: AsteriskTest\AppBundle\Form\Type\PhoneNumberType
+        tags:
+            - { name: form.type, alias: phone_number_type }

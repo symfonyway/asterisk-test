@@ -1,0 +1,3 @@
+asterisk_test_app.phone_form:
+    path:     /
+    defaults: { _controller: AsteriskTestAppBundle:Default:index }
