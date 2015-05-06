@@ -1,6 +1,22 @@
 (function() {
-    var $statusBlock = $('.js-status-block');
+    var $successBlock = $('.alert-success.js-status-block'),
+        $errorBlock = $('.alert-danger.js-status-block')
+    ;
 
+    function showSuccessMessage(text) {
+        $errorBlock.hide();
+        $successBlock.text(text).show()
+    }
+
+    function showErrorMessage(text) {
+        $successBlock.hide();
+        $errorBlock.text(text).show()
+    }
+
+    function hideMessage() {
+        $successBlock.hide();
+        $errorBlock.hide();
+    }
 
     function validateForm($form) {
         var regexNanpFormat = /([\+]?1[\-\. ]?[2-9]{1}[0-9]{2}[\-\. ]?[2-9]{1}[0-9]{2}[\-\. ]?[0-9]{4})$/,
@@ -9,57 +25,56 @@
         ;
 
         if (!value.length) {
-            $statusBlock.text('Phone number is empty.').show();
+            showErrorMessage('Phone number is empty.');
 
             return false;
         }
 
         if (!value.match(regexNanpFormat)) {
-            $statusBlock.text('Value "' + value + '" is not a valid phone number.').show();
+            showErrorMessage('Value "' + value + '" is not a valid phone number.');
 
             return false;
         }
 
-        $statusBlock.hide().text('');
+        hideMessage();
 
         return true;
     }
 
     $('.js-phone-form').on('submit', function() {
         var $this = $(this),
-            url = $this.attr('action') ? $this.attr('action') : location.href
+            $button = $this.find('[type=submit]')
         ;
 
         if (!validateForm($this)) {
             return false;
         }
 
+        $button.attr('disabled', 'disabled');
+        hideMessage();
+
         $
             .ajax({
-                url: url,
+                method: $this.attr('method'),
+                url: location.href,
                 data: $this.serialize()
             })
             .success(function(data) {
-                if (data.hasOwnProperty('message')) {
-                    $statusBlock.text(data.message);
-                }
-
                 if (data.hasOwnProperty('status') && data.status == 'ok') {
-                    $statusBlock.css('background-color', '#green');
+                    if (data.hasOwnProperty('message') && data.message.length) {
+                        showSuccessMessage(data.message);
+                    }
                 } else {
-                    $statusBlock.css('background-color', '#red');
+                    if (data.hasOwnProperty('message') && data.message.length) {
+                        showErrorMessage(data.message);
+                    }
                 }
-
-                $statusBlock.show();
             })
-            .error(function(xhr, status) {
-                if (status && status.length) {
-                    $statusBlock.text(status);
-                } else {
-                    $statusBlock.text('Unknown error.');
-                }
-
-                $statusBlock.css('background-color', '#red').show();
+            .error(function(xhr) {
+                showErrorMessage(xhr.statusText);
+            })
+            .complete(function() {
+                $button.removeAttr('disabled');
             })
         ;
 

@@ -18,7 +18,8 @@ class PhoneNumberType extends AbstractType
                     'constraints' => array(
                         new NotBlank(),
                         new PhoneNumber()
-                    )
+                    ),
+                    'error_bubbling' => true
                 ))
         ;
     }

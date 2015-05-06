@@ -1,20 +1,24 @@
 {% extends 'MopaBootstrapBundle::base.html.twig' %}
 
+{% block title %}Phone number form{% endblock title %}
+
+{% block headline %}Phone number form{% endblock headline %}
+
+{% block head_style %}
+    <link href="{{ asset('bundles/mopabootstrap/bootstrap/dist/css/bootstrap.css') }}" type="text/css" rel="stylesheet" media="screen" />
+{% endblock head_style %}
+
 {% block head_script %}
-    {% javascripts
-    'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'
-    %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 {% endblock head_script %}
 
 {% block foot_script_assetic %}
     {% javascripts
     '@MopaBootstrapBundle/Resources/public/bootstrap/js/tooltip.js'
-    '@MopaBootstrapBundle/Resources/public/bootstrap/js/*.js'
-    '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-collection.js'
-    '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-subnav.js'
+    '@MopaBootstrapBundle/Resources/public/bootstrap/js/popover.js'
     %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock foot_script_assetic %}
+
+{% block footer %}{% endblock footer %}
