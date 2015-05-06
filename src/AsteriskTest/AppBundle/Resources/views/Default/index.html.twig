@@ -1,5 +1,10 @@
 {% extends '::base.html.twig' %}
 
 {% block content %}
-    {{ form(form) }}
+    <div class="js-status-block" style="color: red; display: none"></div>
+    {{ form(form, {'attr': {'class': 'js-phone-form'}}) }}
 {% endblock content %}
+
+{% block body_end_before_js %}
+    <script src="{{ asset('bundles/asterisktestapp/js/phone_form.js') }}"></script>
+{% endblock body_end_before_js %}
