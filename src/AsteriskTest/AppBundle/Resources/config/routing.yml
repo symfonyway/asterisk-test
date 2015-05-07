@@ -1,3 +1,7 @@
 asterisk_test_app.phone_form:
     path:     /
     defaults: { _controller: AsteriskTestAppBundle:Default:index }
+
+asterisk_test_app.phparia_test:
+    path:     /phparia
+    defaults: { _controller: AsteriskTestAppBundle:Test:phparia }
