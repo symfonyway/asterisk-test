@@ -2,6 +2,14 @@ asterisk_test_app.phone_form:
     path:     /
     defaults: { _controller: AsteriskTestAppBundle:Default:index }
 
+asterisk_test_app.ari_watch:
+    path:     /watch
+    defaults: { _controller: AsteriskTestAppBundle:Default:watch }
+
+asterisk_test_app.ari_listen:
+    path:     /listen
+    defaults: { _controller: AsteriskTestAppBundle:Default:listen }
+
 asterisk_test_app.phparia_test:
     path:     /phparia
     defaults: { _controller: AsteriskTestAppBundle:Test:phparia }

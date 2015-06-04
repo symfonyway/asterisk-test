@@ -3,6 +3,7 @@
 namespace AsteriskTest\AppBundle\Controller;
 
 use phparia\Resources\Channel;
+use phparia\Events\StasisStart;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -10,19 +11,21 @@ class TestController extends Controller
 {
     public function phpariaAction()
     {
-        $this->client = new \phparia\Client\Client('ari', 'aritest27', 'test3', '104.131.20.230', 8080);
-        $this->client->getStasisClient()->on(\phparia\Events\Event::STASIS_START, function($event) {
+        $this->client = new \phparia\Client\Client('asterisk', 'asterisk', 'hello-world', '192.168.2.222', 8088);
+
+        $this->client->getStasisClient()->on(\phparia\Events\Event::STASIS_START, function(StasisStart $event) {
+                /** @var Channel $channel */
                 $channel = $event->getChannel();
-                $bridge = $this->client->bridges()->createBridge(uniqid(), 'dtmf_events, mixing', 'bridgename');
-                $this->client->bridges()->addChannel($bridge->getId(), $channel->getId(), null);
+                $channel->startRinging();
+                $channel->playMedia('sound:goodbye');
+                $channel->answer($channel->getId());
+                $channel->deleteChannel();
             });
 
         $this->client->getStasisClient()->on(\phparia\Events\Event::CHANNEL_HANGUP_REQUEST, function($event) {
-                /** @var Channel $channel */
                 $channel = $event->getChannel();
-                $channel->answer($channel->getId());
-                $channel->playMedia('beep');
-                $channel->deleteChannel();
+                $bridge = $this->client->bridges()->createBridge(uniqid(), 'dtmf_events, mixing', 'bridgename');
+                $this->client->bridges()->addChannel($bridge->getId(), $channel->getId(), null);
             });
 
         $this->client->run();

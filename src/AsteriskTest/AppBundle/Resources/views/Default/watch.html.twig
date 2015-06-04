@@ -1,0 +1,22 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Phone number validation{% endblock title %}
+
+{% block headline %}Phone number validation{% endblock headline %}
+
+{% block content %}
+    <div class="well">
+        <div class="js-listen-container">
+            <div class="btn btn-primary js-listen-button">Listen to the call</div>
+            <div class="js-listen-placeholder">listening...</div>
+            <div class="js-listen-result">
+                <div>User has send number: <strong class="js-listen-number"></strong></div>
+                <div class="js-listen-validation"></div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block body_end_before_js %}
+    <script src="{{ asset('bundles/asterisktestapp/js/watch.js') }}"></script>
+{% endblock body_end_before_js %}
