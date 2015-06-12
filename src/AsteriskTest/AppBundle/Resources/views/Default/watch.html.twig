@@ -8,11 +8,12 @@
     <div class="well">
         <div class="js-listen-container">
             <div class="btn btn-primary js-listen-button">Listen to the call</div>
-            <div class="js-listen-placeholder">listening...</div>
-            <div class="js-listen-result">
+            <div class="js-listen-placeholder" style="display: none">listening...</div>
+            <div class="js-listen-result" style="display: none">
                 <div>User has send number: <strong class="js-listen-number"></strong></div>
-                <div class="js-listen-validation"></div>
+                <div class="js-listen-validation" style="color: red;"></div>
             </div>
+            <div class="js-listen-error" style="display: none; color: red;"></div>
         </div>
     </div>
 {% endblock content %}

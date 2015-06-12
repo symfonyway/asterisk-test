@@ -3,11 +3,13 @@
 namespace AsteriskTest\AppBundle\Controller;
 
 use AsteriskTest\AppBundle\Model\PhoneNumber;
+use phparia\Events\Event;
 use phparia\Events\StasisStart;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\ConstraintViolation;
+use phparia\Client\Client;
 
 class DefaultController extends Controller
 {
@@ -58,9 +60,9 @@ class DefaultController extends Controller
     public function listenAction()
     {
         $phoneNumber = new PhoneNumber();
-        $client = new \phparia\Client\Client('asterisk', 'asterisk', 'hello-world', '192.168.2.222', 8088);
+        $client = new Client('asterisk', 'asterisk', 'hello-world', '192.168.2.222', 8088);
 
-        $client->getStasisClient()->on(\phparia\Events\Event::STASIS_START, function(StasisStart $event) use ($client, $phoneNumber) {
+        $client->getStasisClient()->on(Event::STASIS_START, function(StasisStart $event) use ($client, $phoneNumber) {
                 /** @var Channel $channel */
                 $channel = $event->getChannel();
 
@@ -79,7 +81,7 @@ class DefaultController extends Controller
                     });
             });
 
-        $client->getStasisClient()->on(\phparia\Events\Event::CHANNEL_HANGUP_REQUEST, function($event) use ($client, $phoneNumber) {
+        $client->getStasisClient()->on(Event::CHANNEL_HANGUP_REQUEST, function($event) use ($client, $phoneNumber) {
                 $client->getStasisClient()->close();
 
             });
